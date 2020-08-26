@@ -11,6 +11,7 @@ export interface DropdownProps {
   menus?: {
     name: React.ReactNode;
     key: string;
+    visible?: boolean;
   }[];
   onSelect?: (key: string) => void;
 }
@@ -29,9 +30,10 @@ const DropdownButton: React.FC<DropdownProps> = ({
   const { getPrefixCls } = useContext(ConfigContext);
 
   const tempClassName = getPrefixCls('pro-table-dropdown');
+  const finalMenus = menus.filter(({ visible = !0 }) => visible);
   const menu = (
     <Menu onClick={(params) => onSelect && onSelect(params.key as string)}>
-      {menus.map((item) => (
+      {finalMenus.map((item) => (
         <Menu.Item key={item.key}>{item.name}</Menu.Item>
       ))}
     </Menu>
@@ -50,9 +52,10 @@ const TableDropdown: React.FC<DropdownProps> & {
 } = ({ className: propsClassName, style, onSelect, menus = [] }) => {
   const { getPrefixCls } = useContext(ConfigContext);
   const className = getPrefixCls('pro-table-dropdown');
+  const finalMenus = menus.filter(({ visible = !0 }) => visible);
   const menu = (
     <Menu onClick={(params) => onSelect && onSelect(params.key as string)}>
-      {menus.map((item) => (
+      {finalMenus.map((item) => (
         <Menu.Item key={item.key}>{item.name}</Menu.Item>
       ))}
     </Menu>
